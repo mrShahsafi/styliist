@@ -1,0 +1,21 @@
+[{
+  "model": "user.BaseUser",
+  "pk": "b98ec452-7830-4343-b9af-2772464866b3",
+  "fields": {
+    "password": "pbkdf2_sha256$600000$3B2ZC7dLe5DSDi2IFIjINB$SaG4CMdtIA+UGGnZ83f5PBYXqpi3kk5OJfd8+u6fcKk=",
+    "last_login": "2024-03-10T12:28:22.017Z",
+    "is_superuser": true,
+    "created_date": "2024-03-10T12:28:10.909Z",
+    "updated_date": "2024-03-10T12:28:10.915Z",
+    "is_deleted": false,
+    "is_active": true,
+    "name": null,
+    "email": "x@x.com",
+    "first_name": null,
+    "last_name": null,
+    "is_staff": true,
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]
