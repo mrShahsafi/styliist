@@ -14,15 +14,15 @@ User = get_user_model()
 class Booking(CommonBaseModel):
     class Statuses(models.IntegerChoices):
         PENDING = 0, "Pending"
-        DESIGN_BRIEF = 1, "Accepted"
-        DESIGN_FILES = 2, "Rejected"
-        DESIGN_CHECK = 3, "Canceled"
+        ACCEPTED = 1, "Accepted"
+        REJECTED = 2, "Rejected"
+        CANCELED = 3, "Canceled"
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="bookings")
     availability = models.OneToOneField(
         Availability, on_delete=models.CASCADE, related_name="booking"
     )
-    status = models.CharField(
+    status = models.IntegerField(
         choices=Statuses.choices,
         default=Statuses.PENDING,
     )

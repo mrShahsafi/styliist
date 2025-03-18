@@ -1,3 +1,4 @@
+from django.urls import path, include
 from rest_framework import routers
 
 from ..views import (
@@ -5,7 +6,9 @@ from ..views import (
 )
 
 router = routers.SimpleRouter()
-router.register(r"users", UserViewSetApi, basename="user")
+router.register(r"", UserViewSetApi, basename="user")
 
 
-urlpatterns = router.urls
+urlpatterns = [
+    path("", include(router.urls)),
+]

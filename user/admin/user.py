@@ -12,6 +12,7 @@ class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm
     add_form = CustomUserCreationForm
     ordering = ("email",)
+    list_filter = []
     # list_display = ('mobile',)
     # exclude = ('username',)
     model = BaseUser
@@ -36,21 +37,18 @@ class CustomUserAdmin(UserAdmin):
             _("Permissions"),
             {
                 "fields": (
-                    "is_active",
                     "is_staff",
                     "is_superuser",
-                )
+                ),
             },
         ),
-        (_("Important dates"), {"fields": ("last_login",)}),
+        (_("Important dates"), {"fields": ("created_date", "last_login")}),
     )
     add_fieldsets = (
         (None, {"classes": ("wide",), "fields": ("email", "password1", "password2")}),
     )
-    search_fields = (
-        "email",
-        "whatsapp_number",
-    )
+    search_fields = ("email",)
+    readonly_fields = ("created_date",)
 
 
 @admin.register(BaseUser)

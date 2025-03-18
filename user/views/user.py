@@ -12,7 +12,6 @@ from user.serializers import (
     UserSerializer,
     UserDetailSerializer,
     UserInputSerializer,
-    UserDetailWithWalletSerializer,
 )
 
 # from user.permissions import IsOwnerOrReadOnly, IsUserObj
@@ -30,32 +29,17 @@ class UserViewSetApi(
         return instance
 
     def get_queryset(self):
-        queryset = User.all_active.business_layer().order_by("-created_date")
+        queryset = User.objects.all_actives().order_by("-created_date")
         return queryset
 
-    def list(self, request):
+    def get_serializer_class(self):
 
-        serializer = UserSerializer(
-            self.get_queryset(), many=True, context={"request": request}
-        )
-        return Response(serializer.data)
-
-    def retrieve(self, request, pk=None):
-        instance = self.get_object(pk)
-        serializer = UserDetailSerializer(
-            instance=instance,
-            context={"request": request},
-        )
-        return Response(serializer.data)
-
-    def partial_update(self, request, pk=None):
-        instance = self.get_object(pk)
-        serializer = UserInputSerializer(
-            instance=instance, data=request.data, context={"request": request}
-        )
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=200)
+        if self.action in ["create", "update", "partial_update"]:
+            return UserInputSerializer
+        elif self.action in ["retrieve", "current_user"]:
+            return UserDetailSerializer
+        else:
+            return UserSerializer
 
     @action(
         detail=False,
@@ -73,26 +57,3 @@ class UserViewSetApi(
             return Response(serializer.data)
 
         return Response(status="401")
-
-    @action(
-        detail=True,
-        methods=["get"],
-        name="user full detail",
-        # url_path = 'buildings/rooms/(?P<pk>[^/.]+)',
-    )
-    def full_content(self, request, pk=None):
-        user = self.get_object(pk=pk)
-        serializer = UserDetailWithWalletSerializer(
-            user,
-            context={"request": request},
-        )
-        return Response(serializer.data)
-
-        # def get_permissions(self):
-
-    #     """Set custom permissions for each action."""
-    #     if self.action == 'retrieve':
-    #         self.permission_classes = [IsUserObj, ]
-    #     elif self.action == 'list':
-    #         self.permission_classes = [IsAdminUser, ]
-    #     return super().get_permissions()

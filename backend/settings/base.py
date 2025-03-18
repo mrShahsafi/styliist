@@ -42,6 +42,7 @@ THIRD_PARTY_APPS = [
     "rest_framework_simplejwt",
     "drf_spectacular",
     "django_q",
+    "corsheaders",
 ]
 
 
@@ -51,6 +52,7 @@ INSTALLED_APPS = DEFAULT_APPS + CREATED_APPS + THIRD_PARTY_APPS
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -77,17 +79,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "backend.wsgi.application"
-
-
-# Database
-# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
 
 
 # Password validation
@@ -143,7 +134,7 @@ AUTH_USER_MODEL = "user.BaseUser"
 
 AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
-    "user.backends.EmailOrPhoneNumberBackend",
+    # "user.backends.EmailOrPhoneNumberBackend",
 ]
 
 # Django Q
@@ -156,4 +147,17 @@ Q_CLUSTER = {
     "queue_limit": 50,
     "bulk": 10,
     "orm": "default",
+    "redis": {
+        "host": REDIS_URL,  # Redis server hostname (can be a URL if it's remote)
+        "port": 6379,  # Redis server port
+        "db": 0,  # The Redis database to use (default is 0)
+        "password": None,  # Password for Redis (if any)
+        "timeout": 60,  # Timeout for Redis connections
+    },
 }
+
+try:
+    from .drf_settings import *
+except ImportError:
+    print("Failed importing drf_settings.py")
+    pass

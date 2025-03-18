@@ -1,0 +1,12 @@
+DJANGO_ENV="development"
+SITE_NAME=Stylist
+SITE_DSC="Stylist Cheers!"
+#SECRET_KEY=
+REDIS_URL="redis://localhost:6379/0"
+#ACCESS_TOKEN_LIFETIME=
+#REFRESH_TOKEN_LIFETIME=
+# IF you are using Postgres
+#DB_NAME=
+#DB_USER=
+#DB_PASS=
+#DB_HOST=
