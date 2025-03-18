@@ -5,6 +5,7 @@ django-filter
 django-seed
 django-debug-toolbar
 djangorestframework==3.15.2
+django-cors-headers==4.7.0
 djangorestframework_simplejwt==5.5.0
 django-redis==5.4
 drf-spectacular==0.27.1
