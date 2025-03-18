@@ -5,7 +5,7 @@ from ..views import (
     UserViewSetApi,
 )
 
-router = routers.SimpleRouter()
+router = routers.DefaultRouter()
 router.register(r"", UserViewSetApi, basename="user")
 
 

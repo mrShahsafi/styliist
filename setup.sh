@@ -17,6 +17,7 @@ python manage.py migrate || { echo "Migrations failed"; exit 1; }
 # Start Redis server in daemon mode
 redis-server --daemonize yes || { echo "Failed to start Redis"; exit 1; }
 sleep 2
+redis-cli config set stop-writes-on-bgsave-error no
 
 # Run tests
 python manage.py test || { echo "Tests failed"; exit 1; }

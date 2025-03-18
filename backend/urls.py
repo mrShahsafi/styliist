@@ -29,7 +29,6 @@ admin.site.index_title = f"Welcome to {SITE_NAME} Portal"
 apis = [
     path("users/", include("user.urls")),
     path("scheduling/", include("scheduling.urls")),
-    path("", include(router.urls)),
     # Swagger APIs
     path("schema/", SpectacularAPIView.as_view(), name="schema"),
     path(
@@ -40,6 +39,7 @@ apis = [
     path(
         "schema/redoc/", SpectacularRedocView.as_view(url_name="schema"), name="redoc"
     ),
+    path("", SpectacularSwaggerView.as_view(url_name="schema"), name="swagger-ui"),  # Set Swagger as root
 ]
 
 
