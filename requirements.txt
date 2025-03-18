@@ -1,9 +1,9 @@
 asgiref==3.8.1
 black==25.1.0
-Django==4.2
-django-filter==25.1
-django-seed==0.3.1
-django-debug-toolbar==5.0.1
+Django==4.2.9
+django-filter
+django-seed
+django-debug-toolbar
 djangorestframework==3.15.2
 djangorestframework_simplejwt==5.5.0
 django-redis==5.4
