@@ -1,5 +1,5 @@
 from datetime import timedelta
-from .base import SITE_NAME
+from .base import SITE_NAME, os
 
 REST_FRAMEWORK = {
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
@@ -15,31 +15,30 @@ REST_FRAMEWORK = {
         "rest_framework.permissions.IsAuthenticatedOrReadOnly",
     ),
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
-    "DEFAULT_PAGINATION_CLASS": "core.pagination.CustomPagination",
-    "PAGE_SIZE": 9,
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,
     "TEST_REQUEST_DEFAULT_FORMAT": "json",
-    "EXCEPTION_HANDLER": "core.errors.custom_exception_handler",
 }
+
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(days=30),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
+    "ACCESS_TOKEN_LIFETIME": timedelta(
+        minutes=int(os.getenv("SIMPLE_JWT_ACCESS_TOKEN_LIFETIME", default=14400))
+    ),
+    "REFRESH_TOKEN_LIFETIME": timedelta(
+        minutes=int(os.getenv("SIMPLE_JWT_REFRESH_TOKEN_LIFETIME", default=14400 * 3))
+    ),
+    "UPDATE_LAST_LOGIN": True,
+    "BLACKLIST_AFTER_ROTATION": True,
 }
 
-REGISTRATION = {
-    "TOKEN_EXPIRE": 1200,  # 20 Minuets
-    "REFRESH_LINK_LIMIT": 1200,  # 20 Minuets
-}
-
-FORGOT_PASSWORD = {
-    "TOKEN_EXPIRE": timedelta(minutes=30),
-    "RESEND_TOKEN_AVAILABLE_AT": timedelta(minutes=2),
-}
 
 # REMEMBERED_USER_ACCESS_LIFETIME = datetime.timedelta(days=50)
 SPECTACULAR_SETTINGS = {
     "TITLE": f"{SITE_NAME} Project API",
-    "DESCRIPTION": "Finding and reserving homes",
+    "DESCRIPTION": "Reserving...",
     "VERSION": "1.0.0",
     # OTHER SETTINGS
 }
+
+# APPEND_SLASH = False

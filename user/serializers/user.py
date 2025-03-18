@@ -1,8 +1,9 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
+from django.contrib.auth.password_validation import validate_password
+
 from rest_framework import serializers
 
-from wallet.serializers import WalletDetailSerializer
 
 User = get_user_model()
 
@@ -10,7 +11,7 @@ User = get_user_model()
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ("id",)
+        fields = ("id", "full_name")
 
 
 class UserDetailSerializer(serializers.ModelSerializer):
@@ -19,31 +20,30 @@ class UserDetailSerializer(serializers.ModelSerializer):
         exclude = (
             "created_date",
             "updated_date",
-            "is_active",
             "is_deleted",
+            "is_staff",
         )
 
 
-# sometimes we need user and her/his profile at the same time but not always
-class UserDetailWithWalletSerializer(serializers.ModelSerializer):
-
-    wallet = WalletDetailSerializer(
+class UserInputSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField(
         read_only=True,
     )
 
     class Meta:
         model = User
-        fields = "__all__"
-
-
-class UserInputSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
         exclude = (
-            "email",
-            "password",
-            "id",
+            "last_login",
+            "is_deleted",
+            "is_superuser",
+            "is_staff",
+            "groups",
+            "user_permissions",
         )
+
+    def validate_password(self, value):
+        validate_password(value)  # Enforces Django's password policies
+        return value
 
     def validate(self, attrs):
         return attrs

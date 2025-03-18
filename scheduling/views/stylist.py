@@ -5,7 +5,7 @@ from ..serializers import StylistWriteSerializer, StylistReadSerializer
 
 
 class StylistViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = Stylist.objects.prefetch_related("availabilities")
+    queryset = Stylist.objects.all_actives().prefetch_related("availabilities")
 
     def get_serializer_class(self):
         return (
